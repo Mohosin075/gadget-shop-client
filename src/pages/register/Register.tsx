@@ -3,7 +3,7 @@ import useAuth from "../../hooks/useAuth";
 import { useForm } from "react-hook-form";
 
 function Register() {
-  const { createUser } = useAuth();
+  const { createUser, googleLogin } = useAuth();
 
   const {
     register,
@@ -12,11 +12,17 @@ function Register() {
     formState: { errors },
   } = useForm();
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const onSubmit = (data) => {
-    createUser(data.email, data.password);
-    navigate('/')
+    console.log(data);
+    // createUser(data.email, data.password);
+    // navigate("/");
+  };
+
+  const handleGoogleLogin = () => {
+    googleLogin();
+    navigate("/");
   };
 
   return (
@@ -86,6 +92,19 @@ function Register() {
                 <p className="text-red-500 text-sm">Password do not match</p>
               )}
             </div>
+            <div className="form-control">
+              <label className="label">
+                <span className="label-text">Role</span>
+              </label>
+              <select {...register('role')} className="select select-bordered w-full max-w-xs">
+                <option value='seller'>seller</option>
+                <option value='buyer'>buyer</option>
+              </select>
+
+              {errors.role && (
+                <p className="text-red-500 text-sm">Role is required</p>
+              )}
+            </div>
             <div className="form-control mt-6">
               <button className="btn btn-primary">Register</button>
             </div>
@@ -96,6 +115,23 @@ function Register() {
               </NavLink>
             </p>
           </form>
+          <div className="divider w-10/12 mx-auto">OR</div>
+          <div className="text-center mb-7">
+            <button
+              onClick={handleGoogleLogin}
+              className="btn btn-outline btn-secondary w-fit"
+            >
+              <span>
+                <img
+                  width="26"
+                  height="26"
+                  src="https://img.icons8.com/fluency/48/google-logo.png"
+                  alt="google-logo"
+                />
+              </span>
+              Login
+            </button>
+          </div>
         </div>
       </div>
     </div>

@@ -3,7 +3,7 @@ import { NavLink, useNavigate } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
 
 function Login() {
-  const { loginUser } = useAuth();
+  const { loginUser, googleLogin } = useAuth();
 
   const {
     register,
@@ -11,11 +11,16 @@ function Login() {
     formState: { errors },
   } = useForm();
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const onSubmit = (data) => {
     loginUser(data.email, data.password);
-    navigate('/')
+    navigate("/");
+  };
+
+  const handleGoogleLogin = () => {
+    googleLogin();
+    navigate("/");
   };
 
   return (
@@ -69,6 +74,23 @@ function Login() {
               </NavLink>
             </p>
           </form>
+          <div className="divider w-10/12 mx-auto">OR</div>
+          <div className="text-center mb-8">
+            <button
+              onClick={handleGoogleLogin}
+              className="btn btn-outline btn-secondary w-fit"
+            >
+              <span>
+                <img
+                  width="26"
+                  height="26"
+                  src="https://img.icons8.com/fluency/48/google-logo.png"
+                  alt="google-logo"
+                />
+              </span>
+              Login
+            </button>
+          </div>
         </div>
       </div>
     </div>
