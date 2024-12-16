@@ -1,6 +1,8 @@
 import { useForm } from "react-hook-form";
 import { NavLink, useNavigate } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
+import { toast } from "react-toastify";
+import axios from "axios";
 
 function Login() {
   const { loginUser, googleLogin } = useAuth();
@@ -19,8 +21,33 @@ function Login() {
   };
 
   const handleGoogleLogin = () => {
-    googleLogin();
-    navigate("/");
+    googleLogin().then(async (data) => {
+      toast.success("Login Successfully!");
+      navigate("/");
+      if (data.user) {
+        const user = data.user;
+        const userData = {
+          email: user.email,
+          role: "buyer",
+          status: "approved",
+          wishlist: [],
+        };
+
+        const res = await axios.post(
+          `http://localhost:3000/user/${user.email}`,
+          {
+            userData,
+          }
+        );
+
+        if (res.data.insertedId) {
+          toast.success("User Created Successfully!");
+          navigate("/");
+        }
+      }
+    });
+
+    // navigate("/");
   };
 
   return (

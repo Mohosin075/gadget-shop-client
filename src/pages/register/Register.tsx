@@ -1,6 +1,8 @@
 import { NavLink, useNavigate } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
 import { useForm } from "react-hook-form";
+import axios from "axios";
+import { toast } from "react-toastify";
 
 function Register() {
   const { createUser, googleLogin } = useAuth();
@@ -14,15 +16,63 @@ function Register() {
 
   const navigate = useNavigate();
 
-  const onSubmit = (data) => {
-    console.log(data);
-    // createUser(data.email, data.password);
-    // navigate("/");
+  const onSubmit = async (data) => {
+    const userData = {
+      email: data.email,
+      role: data.role,
+      status: data.role === "buyer" ? "approved" : "pending",
+      wishlist: [],
+    };
+
+    createUser(data.email, data.password)
+      .then(async (data) => {
+        if (data.user) {
+          const res = await axios.post(
+            `http://localhost:3000/user/${data.email}`,
+            {
+              userData,
+            }
+          );
+
+          if (res.data.insertedId) {
+            toast.success("User Created Successfully!");
+            navigate("/");
+          }
+        }
+      })
+      .catch((error) => {
+        toast.error(error.message);
+      });
   };
 
   const handleGoogleLogin = () => {
-    googleLogin();
-    navigate("/");
+    googleLogin().then(async (data) => {
+      toast.success("Login Successfully!");
+      navigate("/");
+      if (data.user) {
+        const user = data.user;
+        const userData = {
+          email: user.email,
+          role: "buyer",
+          status: "approved",
+          wishlist: [],
+        };
+
+        const res = await axios.post(
+          `http://localhost:3000/user/${user.email}`,
+          {
+            userData,
+          }
+        );
+
+        if (res.data.insertedId) {
+          toast.success("User Created Successfully!");
+          navigate("/");
+        }
+      }
+    });
+
+    // navigate("/");
   };
 
   return (
@@ -96,9 +146,12 @@ function Register() {
               <label className="label">
                 <span className="label-text">Role</span>
               </label>
-              <select {...register('role')} className="select select-bordered w-full max-w-xs">
-                <option value='seller'>seller</option>
-                <option value='buyer'>buyer</option>
+              <select
+                {...register("role")}
+                className="select select-bordered w-full max-w-xs"
+              >
+                <option value="seller">seller</option>
+                <option value="buyer">buyer</option>
               </select>
 
               {errors.role && (
