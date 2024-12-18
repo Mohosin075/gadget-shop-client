@@ -9,7 +9,6 @@ import Login from "../pages/login/Login";
 import DashboardLayout from "../layout/DashboardLayout";
 import PrivateRoutes from "./PrivateRoutes";
 import AddProduct from "../pages/addProduct/AddProduct";
-import AdminRoutes from "./SellerRoutes";
 import SellerRoutes from "./SellerRoutes";
 import MyProduct from "../pages/myProduct/MyProduct";
 

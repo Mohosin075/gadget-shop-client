@@ -1,4 +1,10 @@
-function SortByPrice({ setSort }) {
+import { Dispatch, SetStateAction } from "react";
+
+type SortByPriceProps = {
+  setSort: Dispatch<SetStateAction<string>>;
+};
+
+function SortByPrice({ setSort }: SortByPriceProps) {
   return (
     <select
       onChange={(e) => setSort(e.target.value)}

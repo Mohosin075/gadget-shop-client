@@ -1,8 +1,9 @@
 import { Navigate, useLocation } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
 import useUserRole from "../hooks/useUserRole";
+import { ReactNode } from "react";
 
-function SellerRoutes({ children }) {
+function SellerRoutes({ children }: { children: ReactNode }) {
   const role = useUserRole();
 
   const { user, loading } = useAuth();

@@ -1,4 +1,4 @@
-import { useForm } from "react-hook-form";
+import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { NavLink, useNavigate } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
 import { toast } from "react-toastify";
@@ -15,7 +15,7 @@ function Login() {
 
   const navigate = useNavigate();
 
-  const onSubmit = (data) => {
+  const onSubmit: SubmitHandler<FieldValues> = (data) => {
     loginUser(data.email, data.password);
     navigate("/");
   };
@@ -34,7 +34,7 @@ function Login() {
         };
 
         const res = await axios.post(
-          `http://localhost:3000/user/${user.email}`,
+          `https://gadget-shop-server-drab.vercel.app/user/${user.email}`,
           {
             userData,
           }

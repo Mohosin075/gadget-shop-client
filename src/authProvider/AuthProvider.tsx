@@ -1,4 +1,4 @@
-import { createContext, useEffect, useState } from "react";
+import { createContext, ReactNode, useEffect, useState } from "react";
 
 import { app } from "../firebase_config/firebase.config";
 import {
@@ -10,14 +10,25 @@ import {
   signInWithPopup,
   onAuthStateChanged,
   User,
+  UserCredential,
 } from "firebase/auth";
 import axios from "axios";
 
-export const AuthContext = createContext(null);
+// Define the type for the context value
+export interface AuthContextType {
+  user: User | null;
+  loading: boolean;
+  createUser: (email: string, password: string) => Promise<UserCredential>;
+  loginUser: (email: string, password: string) => Promise<UserCredential>;
+  logOut: () => Promise<void>;
+  googleLogin: () => Promise<UserCredential>;
+}
+
+export const AuthContext = createContext<AuthContextType | null>(null);
 const auth = getAuth(app);
 const googleProvider = new GoogleAuthProvider();
 
-function AuthProvider({ children }) {
+function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
 
@@ -28,8 +39,8 @@ function AuthProvider({ children }) {
     return signInWithEmailAndPassword(auth, email, password);
   };
 
-  const logOut = () => {
-    signOut(auth);
+  const logOut = (): Promise<void> => {
+    return signOut(auth);
   };
 
   const googleLogin = () => {
@@ -42,7 +53,9 @@ function AuthProvider({ children }) {
 
       if (currentUser && currentUser?.email) {
         axios
-          .post("http://localhost:3000/jwt", { email: currentUser.email })
+          .post("https://gadget-shop-server-drab.vercel.app/jwt", {
+            email: currentUser.email,
+          })
           .then((data) => {
             if (data?.data?.token) {
               localStorage.setItem("gadget-shop", data?.data?.token);
@@ -60,7 +73,7 @@ function AuthProvider({ children }) {
     };
   }, []);
 
-  const authInfo = {
+  const authInfo: AuthContextType = {
     user,
     loading,
     createUser,

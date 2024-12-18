@@ -1,6 +1,6 @@
 import { NavLink, useNavigate } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
-import { useForm } from "react-hook-form";
+import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import axios from "axios";
 import { toast } from "react-toastify";
 
@@ -16,7 +16,7 @@ function Register() {
 
   const navigate = useNavigate();
 
-  const onSubmit = async (data) => {
+  const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     const userData = {
       email: data.email,
       role: data.role,
@@ -28,7 +28,7 @@ function Register() {
       .then(async (data) => {
         if (data.user) {
           const res = await axios.post(
-            `http://localhost:3000/user/${data.email}`,
+            `https://gadget-shop-server-drab.vercel.app/user/${data.user.email}`,
             {
               userData,
             }
@@ -59,7 +59,7 @@ function Register() {
         };
 
         const res = await axios.post(
-          `http://localhost:3000/user/${user.email}`,
+          `https://gadget-shop-server-drab.vercel.app/user/${user.email}`,
           {
             userData,
           }

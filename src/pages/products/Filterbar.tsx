@@ -1,10 +1,20 @@
+import { Dispatch, SetStateAction } from "react";
+
+type FilterbarProps = {
+  setBrand: Dispatch<SetStateAction<string>>;
+  setCategory: Dispatch<SetStateAction<string>>;
+  handleReset: () => void;
+  uniqueBrand: string[];
+  uniqueCategory: string[];
+};
+
 function Filterbar({
   setBrand,
   setCategory,
   handleReset,
   uniqueCategory,
   uniqueBrand,
-}) {
+}: FilterbarProps) {
   return (
     <div className="bg-gray-200 h-screen px-6 sticky top-0">
       <h2 className="text-xl font-semibold py-3">Filter</h2>

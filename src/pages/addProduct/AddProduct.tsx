@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useForm } from "react-hook-form";
+import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import Swal from "sweetalert2";
 import useAuth from "../../hooks/useAuth";
 
@@ -12,16 +12,25 @@ function AddProduct() {
     formState: { errors },
   } = useForm();
 
-  const onSubmit = async (data) => {
+  const onSubmit: SubmitHandler<FieldValues> = async (data) => {
+    const { brand, title, price, description, stock, imageURL, category } =
+      data;
+
     const productData = {
-      ...data,
+      title,
+      price,
+      description,
+      stock,
+      imageURL,
+      category,
+      brand,
       sellerEmail: user?.email,
     };
 
     console.log(productData);
     try {
       const res = await axios.post(
-        "http://localhost:3000/add-product",
+        "https://gadget-shop-server-drab.vercel.app/add-product",
         productData
       );
 

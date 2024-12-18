@@ -1,7 +1,7 @@
 import Accordion from "../../components/home/Accordion";
 import Banner from "../../components/home/Banner";
-import FeaturedProducts from "../../components/home/FeaturedProducts";
 import UserReview from "../../components/home/UserReview";
+import Products from "../products/Products";
 
 function Home() {
   return (
@@ -12,7 +12,8 @@ function Home() {
           <h2 className="text-center font-bold text-3xl mb-4 uppercase">
             Featured Product
           </h2>
-          <FeaturedProducts />
+          {/* <FeaturedProducts /> */}
+          <Products />
         </div>
         <div className="my-12">
           <h2 className="text-center font-bold text-3xl mb-4 uppercase">

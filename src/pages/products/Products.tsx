@@ -1,33 +1,57 @@
-import { FormEvent, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Filterbar from "./Filterbar";
 import SearchBar from "./SearchBar";
 import SortByPrice from "./SortByPrice";
 import axios from "axios";
 import Loading from "./Loading";
 import ProductCard from "../../components/ProductCard";
+import { FieldValues, SubmitHandler } from "react-hook-form";
 
-function Products() {
-  const [products, setProducts] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [search, setSearch] = useState("");
-  const [sort, setSort] = useState("asc");
-  const [brand, setBrand] = useState("");
-  const [category, setCategory] = useState("");
-  const [uniqueBrand, setUniqueBrand] = useState([]);
-  const [uniqueCategory, setUniqueCategory] = useState([]);
-  const [totalPage, setTotalPage] = useState(1);
-  const [page, setPage] = useState(1);
-  const [limit, setLimit] = useState(6);
+interface Product {
+  _id: string;
+  brand: string;
+  title: string;
+  price: number;
+  description: string;
+  category: string;
+  stock: number;
+  imageURL: string;
+}
+
+// interface ProductsState {
+//   products: Product[];
+//   loading: boolean;
+//   search: string;
+//   sort: string;
+//   brand: string;
+//   category: string;
+//   uniqueBrand: string[];
+//   uniqueCategory: string[];
+//   totalPage: number;
+//   page: number;
+// }
+
+const Products = () => {
+  const [products, setProducts] = useState<Product[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [search, setSearch] = useState<string>("");
+  const [sort, setSort] = useState<string>("asc");
+  const [brand, setBrand] = useState<string>("");
+  const [category, setCategory] = useState<string>("");
+  const [uniqueBrand, setUniqueBrand] = useState<string[]>([]);
+  const [uniqueCategory, setUniqueCategory] = useState<string[]>([]);
+  const [totalPage, setTotalPage] = useState<number>(1);
+  const [page, setPage] = useState<number>(1);
+  const limit: number = 6;
 
   useEffect(() => {
+    setLoading(true);
     const fetch = () => {
-      setLoading(true);
       axios
         .get(
-          `http://localhost:3000/all-product?page=${page}&limit=${limit}&title=${search}&brand=${brand}&category=${category}&sort=${sort}`
+          `https://gadget-shop-server-drab.vercel.app/all-product?page=${page}&limit=${limit}&title=${search}&brand=${brand}&category=${category}&sort=${sort}`
         )
         .then((data) => {
-          console.log(data);
           setProducts(data.data.product);
           setUniqueBrand(data.data.brands);
           setUniqueCategory(data.data.categories);
@@ -38,7 +62,7 @@ function Products() {
     fetch();
   }, [category, search, brand, sort, totalPage, page, limit]);
 
-  const handleSearch = (e) => {
+  const handleSearch: SubmitHandler<FieldValues> = (e) => {
     e.preventDefault();
     setSearch(e.target.search.value);
   };
@@ -49,8 +73,6 @@ function Products() {
     setBrand("");
     setCategory("");
   };
-
-  console.log({ page, totalPage });
 
   const handlePagination = (newPage: number) => {
     if (newPage > 0 && newPage <= totalPage) {
@@ -79,13 +101,13 @@ function Products() {
         <div className="col-span-9">
           {loading ? (
             <Loading />
-          ) : products.length === 0 ? (
+          ) : products?.length === 0 ? (
             <h3 className="text-3xl text-center">No Product found</h3>
           ) : (
             <>
               <div className="grid lg:grid-cols-3 gap-4">
-                {products.map((product) => (
-                  <ProductCard product={product} />
+                {products.map((product, i) => (
+                  <ProductCard key={i} product={product} />
                 ))}
               </div>
               <div className="flex justify-center my-8">
@@ -115,6 +137,6 @@ function Products() {
       </div>
     </div>
   );
-}
+};
 
 export default Products;

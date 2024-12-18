@@ -1,6 +1,23 @@
-function ProductCard({ product }) {
+import React from "react";
+
+interface Product {
+  brand: string;
+  title: string;
+  price: number;
+  description: string;
+  category: string;
+  stock: number;
+  imageURL: string;
+}
+
+interface ProductCardProps {
+  product: Product;
+}
+
+const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   const { brand, title, price, description, category, stock, imageURL } =
     product;
+
   return (
     <div className="card card-compact bg-base-100 shadow-xl">
       <figure>
@@ -14,13 +31,12 @@ function ProductCard({ product }) {
         <p>
           price : <span className="text-red-500">{price}</span>
         </p>
-
         <p>
           stock : <span className="text-red-500">{stock}</span>
         </p>
         <p className="font-semibold text-lg">{category}</p>
         <p>
-          {description.length > 40
+          {description?.length > 40
             ? `${description.slice(0, 40)}...`
             : `${description}`}
         </p>
@@ -30,6 +46,6 @@ function ProductCard({ product }) {
       </div>
     </div>
   );
-}
+};
 
 export default ProductCard;

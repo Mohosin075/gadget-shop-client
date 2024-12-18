@@ -1,4 +1,9 @@
-function SearchBar({ handleSearch }) {
+import { FieldValues, SubmitHandler } from "react-hook-form";
+
+type SearchBarProps = {
+  handleSearch: SubmitHandler<FieldValues>;
+};
+function SearchBar({ handleSearch }: SearchBarProps) {
   return (
     <form onSubmit={handleSearch}>
       <div className="join">
@@ -7,7 +12,9 @@ function SearchBar({ handleSearch }) {
           placeholder="Search"
           name="search"
         />
-        <button type="submit" className="btn join-item rounded-r-full">Search</button>
+        <button type="submit" className="btn join-item rounded-r-full">
+          Search
+        </button>
       </div>
     </form>
   );

@@ -9,7 +9,9 @@ function useUserRole() {
 
   useEffect(() => {
     const getData = async () => {
-      const res = await axios.get(`http://localhost:3000/user/${user?.email}`);
+      const res = await axios.get(
+        `https://gadget-shop-server-drab.vercel.app/user/${user?.email}`
+      );
       setRole(res.data.role);
     };
     if (user) {
