@@ -6,6 +6,12 @@ import Contact from "../pages/contact/Contact";
 import Products from "../pages/products/Products";
 import Register from "../pages/register/Register";
 import Login from "../pages/login/Login";
+import DashboardLayout from "../layout/DashboardLayout";
+import PrivateRoutes from "./PrivateRoutes";
+import AddProduct from "../pages/addProduct/AddProduct";
+import AdminRoutes from "./SellerRoutes";
+import SellerRoutes from "./SellerRoutes";
+import MyProduct from "../pages/myProduct/MyProduct";
 
 export const router = createBrowserRouter([
   {
@@ -35,6 +41,32 @@ export const router = createBrowserRouter([
       {
         path: "/login",
         element: <Login />,
+      },
+    ],
+  },
+  {
+    path: "/dashboard",
+    element: (
+      <PrivateRoutes>
+        <DashboardLayout />
+      </PrivateRoutes>
+    ),
+    children: [
+      {
+        path: "add-product",
+        element: (
+          <SellerRoutes>
+            <AddProduct />
+          </SellerRoutes>
+        ),
+      },
+      {
+        path: "my-product",
+        element: (
+          <SellerRoutes>
+            <MyProduct />
+          </SellerRoutes>
+        ),
       },
     ],
   },
