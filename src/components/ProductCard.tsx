@@ -1,7 +1,6 @@
 function ProductCard({ product }) {
   const { brand, title, price, description, category, stock, imageURL } =
     product;
-  console.log(product);
   return (
     <div className="card card-compact bg-base-100 shadow-xl">
       <figure>
@@ -20,6 +19,11 @@ function ProductCard({ product }) {
           stock : <span className="text-red-500">{stock}</span>
         </p>
         <p className="font-semibold text-lg">{category}</p>
+        <p>
+          {description.length > 40
+            ? `${description.slice(0, 40)}...`
+            : `${description}`}
+        </p>
         <div className="card-actions justify-end">
           <button className="btn w-full">add to wishlist</button>
         </div>

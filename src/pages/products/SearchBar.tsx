@@ -1,9 +1,15 @@
-function SearchBar() {
+function SearchBar({ handleSearch }) {
   return (
-    <div className="join">
-      <input className="input input-bordered join-item" placeholder="Search" />
-      <button className="btn join-item rounded-r-full">Search</button>
-    </div>
+    <form onSubmit={handleSearch}>
+      <div className="join">
+        <input
+          className="input input-bordered join-item"
+          placeholder="Search"
+          name="search"
+        />
+        <button type="submit" className="btn join-item rounded-r-full">Search</button>
+      </div>
+    </form>
   );
 }
 
