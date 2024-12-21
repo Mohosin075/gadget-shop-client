@@ -3,7 +3,7 @@ import { NavLink, Outlet } from "react-router-dom";
 import useUserRole from "../hooks/useUserRole";
 
 function DashboardLayout() {
-  const role = useUserRole();
+  const {role} = useUserRole();
   return (
     <div className="drawer lg:drawer-open">
       <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
@@ -39,6 +39,13 @@ function DashboardLayout() {
               </li>
               <li>
                 <NavLink to="/dashboard/my-product">My Product</NavLink>
+              </li>
+            </>
+          )}
+          {role === "buyer" && (
+            <>
+              <li>
+                <NavLink to="/dashboard/wishlist">My wishList</NavLink>
               </li>
             </>
           )}

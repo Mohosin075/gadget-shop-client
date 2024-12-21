@@ -28,7 +28,7 @@ function Register() {
       .then(async (data) => {
         if (data.user) {
           const res = await axios.post(
-            `https://gadget-shop-server-drab.vercel.app/user/${data.user.email}`,
+            `http://localhost:3000/user/${data.user.email}`,
             {
               userData,
             }
@@ -59,7 +59,7 @@ function Register() {
         };
 
         const res = await axios.post(
-          `https://gadget-shop-server-drab.vercel.app/user/${user.email}`,
+          `http://localhost:3000/user/${user.email}`,
           {
             userData,
           }

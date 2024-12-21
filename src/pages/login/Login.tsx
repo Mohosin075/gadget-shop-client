@@ -34,7 +34,7 @@ function Login() {
         };
 
         const res = await axios.post(
-          `https://gadget-shop-server-drab.vercel.app/user/${user.email}`,
+          `http://localhost:3000/user/${user.email}`,
           {
             userData,
           }

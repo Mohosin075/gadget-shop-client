@@ -53,7 +53,7 @@ function AuthProvider({ children }: { children: ReactNode }) {
 
       if (currentUser && currentUser?.email) {
         axios
-          .post("https://gadget-shop-server-drab.vercel.app/jwt", {
+          .post("http://localhost:3000/jwt", {
             email: currentUser.email,
           })
           .then((data) => {

@@ -1,9 +1,8 @@
 import { Navigate, useLocation } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
 import useUserRole from "../hooks/useUserRole";
-import { ReactNode } from "react";
 
-function SellerRoutes({ children }: { children: ReactNode }) {
+function BuyerRoutes({ children }) {
   const { role } = useUserRole();
 
   const { user, loading } = useAuth();
@@ -17,11 +16,11 @@ function SellerRoutes({ children }: { children: ReactNode }) {
     );
   }
 
-  if (user && role === "seller") {
+  if (user && role === "buyer") {
     return children;
   }
 
   return <Navigate to={"/login"} state={{ from: location }} replace />;
 }
 
-export default SellerRoutes;
+export default BuyerRoutes;

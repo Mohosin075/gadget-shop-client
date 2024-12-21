@@ -49,7 +49,7 @@ const Products = () => {
     const fetch = () => {
       axios
         .get(
-          `https://gadget-shop-server-drab.vercel.app/all-product?page=${page}&limit=${limit}&title=${search}&brand=${brand}&category=${category}&sort=${sort}`
+          `http://localhost:3000/all-product?page=${page}&limit=${limit}&title=${search}&brand=${brand}&category=${category}&sort=${sort}`
         )
         .then((data) => {
           setProducts(data.data.product);

@@ -5,21 +5,19 @@ import useAuth from "./useAuth";
 function useUserRole() {
   const { user } = useAuth();
 
-  const [role, setRole] = useState("");
+  const [userFromDD, setUser] = useState({});
 
   useEffect(() => {
     const getData = async () => {
-      const res = await axios.get(
-        `https://gadget-shop-server-drab.vercel.app/user/${user?.email}`
-      );
-      setRole(res.data.role);
+      const res = await axios.get(`http://localhost:3000/user/${user?.email}`);
+      setUser(res.data);
     };
     if (user) {
       getData();
     }
   }, [user]);
 
-  return role;
+  return userFromDD;
 }
 
 export default useUserRole;

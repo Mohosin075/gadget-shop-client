@@ -30,7 +30,7 @@ function AddProduct() {
     console.log(productData);
     try {
       const res = await axios.post(
-        "https://gadget-shop-server-drab.vercel.app/add-product",
+        "http://localhost:3000/add-product",
         productData
       );
 
